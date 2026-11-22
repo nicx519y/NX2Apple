@@ -19,6 +19,7 @@ struct SettingsPage: View {
     var diagnostics: (LibraryGame?, @escaping (String) -> Void) -> Void = { _, _ in }   // the report of Copy diagnostics (LauncherStores)
     var onChooseLibraryFolder: () -> Void = {}
     var onOpenControls: () -> Void = {}
+    var onTestController: () -> Void = {}
     var onOpenControllers: () -> Void = {}   // the Controllers sheet (the console mode's list, with the player-mode setting)
     var onRunSetup: (() -> Void)?   // the guided first-run setup, again (nil where there is none)
     var controlChanges = 0
@@ -92,7 +93,7 @@ struct SettingsPage: View {
     @ViewBuilder private var controls: some View {
         ControlsCard(controlChanges: controlChanges, padMerge: padMerge, consolePrompt: $consolePromptOn,
                      startInConsole: $startInConsole, onOpenControls: onOpenControls, onOpenControllers: onOpenControllers,
-                     onOpenHomeSettings: HomeButtonSettings.available ? { HomeButtonSettings.open() } : nil)   // HomeButtonSettings.swift (#336)
+                     onTestController: onTestController, onOpenHomeSettings: HomeButtonSettings.available ? { HomeButtonSettings.open() } : nil)   // HomeButtonSettings.swift (#336)
         if let sticks { StickDeadzoneCard(store: sticks) }
     }
 

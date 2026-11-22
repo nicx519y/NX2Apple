@@ -11,18 +11,20 @@ package struct ControlsCard: View {
     let startInConsole: Binding<Bool>   // "Start in console mode" (#336)
     let onOpenControls: () -> Void
     let onOpenControllers: () -> Void   // the Controllers sheet (the console mode's list, with the player-mode setting)
+    let onTestController: () -> Void
     let onOpenHomeSettings: (() -> Void)?   // the system's Home button settings (#336): nil before macOS 27, where the Home button cannot quit a game
     @EnvironmentObject var loc: Localizer
 
     package init(controlChanges: Int, padMerge: Binding<Bool>, consolePrompt: Binding<Bool>,
                  startInConsole: Binding<Bool>, onOpenControls: @escaping () -> Void, onOpenControllers: @escaping () -> Void,
-                 onOpenHomeSettings: (() -> Void)? = nil) {
+                 onTestController: @escaping () -> Void = {}, onOpenHomeSettings: (() -> Void)? = nil) {
         self.controlChanges = controlChanges
         self.padMerge = padMerge
         self.consolePrompt = consolePrompt
         self.startInConsole = startInConsole
         self.onOpenControls = onOpenControls
         self.onOpenControllers = onOpenControllers
+        self.onTestController = onTestController
         self.onOpenHomeSettings = onOpenHomeSettings
     }
 
@@ -36,6 +38,11 @@ package struct ControlsCard: View {
             CardRow(loc.t("console.controllers"), detail: loc.t("console.controllersRowNote")) {
                 Button(loc.t("console.controllersOpen"), action: onOpenControllers)
                     .padTarget("set.controllers", scope: "main") { onOpenControllers() }
+            }
+            CardDivider()
+            CardRow(loc.t("padTest.title"), detail: loc.t("padTest.hint")) {
+                Button(loc.t("padTest.open"), action: onTestController)
+                    .padTarget("set.padTest", scope: "main", activate: onTestController)
             }
             CardDivider()
             CardRow(loc.t("console.mergeAll"), info: ("set.padMerge.help", loc.t("console.mergeNote"))) {

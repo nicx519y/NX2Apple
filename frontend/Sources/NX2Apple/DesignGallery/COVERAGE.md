@@ -6,7 +6,7 @@ popover and alert, every notice and every case of the state enums the views swit
 `NX_WRITE_COVERAGE=1 swift test --package-path frontend --filter GalleryCoverageTests`. The gallery has
 327 scenes.
 
-## Views: 219 of 229 in a scene
+## Views: 219 of 231 in a scene
 
 | View | Scenes |
 |---|---|
@@ -114,6 +114,7 @@ popover and alert, every notice and every case of the state enums the views swit
 | `ConsoleValueStepper` | `consoleOptions` |
 | `ConsoleView` | `consoleHome` |
 | `ControllerMappingStatus` | `controlsSheet` |
+| `ControllerTestView` | Reason: Live hardware diagnostics: the data and controller availability come from the connected device. The Controls scene shows the entry point. |
 | `ControlsCard` | `settingsControls` |
 | `ControlsView` | `controlsSheet` |
 | `DSCard` | `cardStates` |
@@ -154,6 +155,7 @@ popover and alert, every notice and every case of the state enums the views swit
 | `Hosted` | `settings`, `settingsTools` |
 | `InstallCard` | `wizardInstall` |
 | `KeysCard` | `settingsTools` |
+| `KunpengTestDiagram` | Reason: Live hardware diagnostics: the data and controller availability come from the connected device. The Controls scene shows the entry point. |
 | `LaunchOptionsView` | `gameOptions` |
 | `LauncherActionButton` | `libraryGames` |
 | `LauncherBrandMark` | `wizardInstall` |
@@ -240,7 +242,7 @@ popover and alert, every notice and every case of the state enums the views swit
 | `UpstreamPicker` | `nxkitEngine`, `desktop-mngBlocked` |
 | `UpstreamVersionPill` | `buildsIdle`, `desktop-engineDropdown` |
 
-## Presentations: 30 of 36 in a scene
+## Presentations: 30 of 37 in a scene
 
 | Presentation | Scenes |
 |---|---|
@@ -259,6 +261,7 @@ popover and alert, every notice and every case of the state enums the views swit
 | `LaunchOptionsView.swift .sheet GameControllerMappingView` | `desktop-controllerMapping` |
 | `LauncherDropdown.swift .popover LauncherDropdownList` | Reason: A popover or an alert: AppKit draws it in its own window, which a capture of the scene cannot hold. The scene shows what opens it. |
 | `LauncherInfoHelp.swift .popover VStack` | Reason: A popover or an alert: AppKit draws it in its own window, which a capture of the scene cannot hold. The scene shows what opens it. |
+| `LauncherView.swift .sheet ControllerTestView` | Reason: Live hardware diagnostics: the data and controller availability come from the connected device. The Controls scene shows the entry point. |
 | `LauncherView.swift .sheet ConsoleControllersSheet` | `controllersSheet` |
 | `LauncherView.swift .alert Text` | Reason: A popover or an alert: AppKit draws it in its own window, which a capture of the scene cannot hold. The scene shows what opens it. |
 | `LauncherView.swift .sheet LauncherConfirmSheet` | `removeGame` |
@@ -573,5 +576,6 @@ popover and alert, every notice and every case of the state enums the views swit
 
 - Not used by the launcher: no view creates it, only tests host it. `EngineFootnote`, `MacNativeGamesNotice`, `build.mngRecommend`, `BuildFooterReveal`, `ConsoleChoiceRow`, `ManageButtonLabel`
 - A popover or an alert: AppKit draws it in its own window, which a capture of the scene cannot hold. The scene shows what opens it. `OnboardingKeysContent.swift .popover VStack`, `LibraryArtworkState.swift .popover Text`, `LauncherInfoHelp.swift .popover VStack`, `LauncherDropdown.swift .popover LauncherDropdownList`, `EngineSwitcherCard.swift .popover EngineDropdownPanel`, `LauncherView.swift .alert Text`, `Popped`
+- Live hardware diagnostics: the data and controller availability come from the connected device. The Controls scene shows the entry point. `ControllerTestView`, `KunpengTestDiagram`, `LauncherView.swift .sheet ControllerTestView`
 - A context menu: macOS draws its items as a menu. `LibraryCardContextMenuContent`
 - The app's roots: they choose the onboarding, the launcher or the console demo, whose scenes show what they draw. `RootView`, `ConsoleInLanguage`, `ConsoleDemoView`

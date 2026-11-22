@@ -39,6 +39,7 @@ struct CardPages: View {
     var onOpenSettings: () -> Void = {}
     var onChooseLibraryFolder: () -> Void = {}
     var onOpenControls: () -> Void = {}
+    var onTestController: () -> Void = {}
     var onOpenControllers: () -> Void = {}   // the Controllers sheet (the console mode's list, with the player-mode setting)
     var onRunSetup: (() -> Void)?   // the guided first-run setup, again (nil where there is none)
     var controlChanges = 0
@@ -55,7 +56,7 @@ struct CardPages: View {
             if settings {
                 SettingsPage(build: build, updates: updates, repo: repo, engine: engine, dependencies: dependencies, library: library, players: players, sticks: sticks, saveSettings: saveSettings,
                              diagnostics: diagnostics, onChooseLibraryFolder: onChooseLibraryFolder, onOpenControls: onOpenControls,
-                             onOpenControllers: onOpenControllers, onRunSetup: onRunSetup, controlChanges: controlChanges, padMerge: padMerge, buildFiles: buildFiles, buildingID: buildingID, onBuildFileDetails: onBuildFileDetails, category: $settingsCategory)
+                             onTestController: onTestController, onOpenControllers: onOpenControllers, onRunSetup: onRunSetup, controlChanges: controlChanges, padMerge: padMerge, buildFiles: buildFiles, buildingID: buildingID, onBuildFileDetails: onBuildFileDetails, category: $settingsCategory)
             } else {
                 Group {
                     BuildPage(library: library, artworkStore: artworkStore, fetchMetadata: fetchMetadata, step: $buildStep, build: build, running: build.running, repo: repo, dependencies: dependencies, devices: devices, queue: queue, transfers: transfers, onSelectGames: onSelectGames, extrasOpen: $extrasOpen, logOpen: buildLogOpen, allStepsOpen: allBuildStepsOpen,

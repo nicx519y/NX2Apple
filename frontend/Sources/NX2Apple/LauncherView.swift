@@ -26,6 +26,7 @@ struct LauncherView: View {
     private let enterConsole: (() -> Void)?   // nil until the console mode is wired: no entry button, no prompt
     private let injectedDriver: Bool
     @StateObject private var consoleDriver: AnyConsoleDriver
+    @State private var controllerTestOpen = false
     @State private var controllerSheet = false
     @FocusState var searchFocused: Bool
     @State var artwork: [UUID: NSImage] = [:]   // card size
@@ -188,7 +189,7 @@ struct LauncherView: View {
     var heroGame: LibraryGame? { library.selected ?? recentGames.first }
 
     var libraryInputAvailable: Bool {
-        currentPadScope == "main" && padFocus.scope == "main" && dropdowns.request == nil && dropdowns.custom == nil && manageOpenFor == nil && removing == nil && !consolePrompt && !profileHelpOpen
+        !controllerTestOpen && currentPadScope == "main" && padFocus.scope == "main" && dropdowns.request == nil && dropdowns.custom == nil && manageOpenFor == nil && removing == nil && !consolePrompt && !profileHelpOpen
             && !updates.showUpdateSheet && launchError == nil && library.error == nil
     }
 
@@ -197,6 +198,7 @@ struct LauncherView: View {
         .overlay(alignment: .top) {
             if !controllerSheet, let toast = consoleDriver.state.toast { ConsoleToastView(toast: toast) }
         }
+        .sheet(isPresented: $controllerTestOpen) { ControllerTestView().environmentObject(loc) }
         .sheet(isPresented: $controllerSheet) {
             ConsoleControllersSheet(driver: consoleDriver, lang: loc.lang, close: { controllerSheet = false; consoleDriver.back() })
                 .environmentObject(padFocus)
@@ -270,7 +272,7 @@ struct LauncherView: View {
                           }, onPlayGame: completedBuildGame.flatMap { game in game.isReady ? { primaryAction(game) } : nil }, onPlayQueuedGame: { titleID in
                               if let game = library.games.first(where: { $0.titleID == titleID }), game.isReady, !launching { primaryAction(game) }
                           }, queuePlayEnabled: !launching, editingBuildResult: $editingBuildResult, onOpenSettings: { settingsCategory = .tools; page = .settings },
-                          onChooseLibraryFolder: chooseLibraryFolder, onOpenControls: { controlsOpen = true }, onOpenControllers: { controllerSheet = true }, onRunSetup: onRunSetup, controlChanges: controls.changeCount,
+                          onChooseLibraryFolder: chooseLibraryFolder, onOpenControls: { controlsOpen = true }, onTestController: { controllerTestOpen = true }, onOpenControllers: { controllerSheet = true }, onRunSetup: onRunSetup, controlChanges: controls.changeCount,
                           padMerge: Binding(get: { controls.padMerge }, set: { setPadMerge($0) }), buildFiles: stores.buildFiles, buildingID: m.running ? activeBuildID : nil, onBuildFileDetails: { freeSpaceFor = $0 }, settingsCategory: $settingsCategory)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
@@ -322,7 +324,7 @@ struct LauncherView: View {
         .onDisappear { gamepad.deactivate() }
         .onAppear {
             gamepad.perform = padAction
-            gamepad.capture = { [consoleDriver] id, action in consoleDriver.consumePress(controllerID: id, isBack: action == .b) }
+            gamepad.capture = { [consoleDriver] id, action in controllerTestOpen || consoleDriver.consumePress(controllerID: id, isBack: action == .b) }
             if performStartupChecks {
                 library.migrateLaunchOptions(); library.migrateArtwork(); CloudSavesMigration.run()
                 library.syncSharedApp(root: m.shellCachePath, fallbackDevice: stores.deviceStore.installDevice)
@@ -647,7 +649,7 @@ struct LauncherView: View {
     /// then the D-pad moves it (PadFocus), A activates, B closes a sheet or goes back to the library, X opens the selected
     /// game's launch options, L and R switch the pages.
     private func padAction(_ action: LauncherGamepad.Action) {
-        if NSApp.modalWindow != nil || NSApp.keyWindow is NSSavePanel { return }
+        if controllerTestOpen || NSApp.modalWindow != nil || NSApp.keyWindow is NSSavePanel { return }
         if action == .select {   // the controller's Select-type button opens console mode
             guard libraryInputAvailable else { return }
             if let enterConsole { consolePrompt = false; enterConsole() }

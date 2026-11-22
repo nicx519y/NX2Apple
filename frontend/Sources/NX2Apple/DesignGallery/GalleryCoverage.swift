@@ -290,6 +290,8 @@ enum GalleryCoverage {
          ["OnboardingKeysContent.swift .popover VStack", "LibraryArtworkState.swift .popover Text", "LauncherInfoHelp.swift .popover VStack",
           "LauncherDropdown.swift .popover LauncherDropdownList", "EngineSwitcherCard.swift .popover EngineDropdownPanel",
           "LauncherView.swift .alert Text", "Popped"]),
+        ("Live hardware diagnostics: the data and controller availability come from the connected device. The Controls scene shows the entry point.",
+         ["ControllerTestView", "KunpengTestDiagram", "LauncherView.swift .sheet ControllerTestView"]),
         ("A context menu: macOS draws its items as a menu.", ["LibraryCardContextMenuContent"]),
         ("The app's roots: they choose the onboarding, the launcher or the console demo, whose scenes show what they draw.",
          ["RootView", "ConsoleInLanguage", "ConsoleDemoView"]),
