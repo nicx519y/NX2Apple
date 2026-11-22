@@ -1,4 +1,5 @@
 import SwiftUI
+import NXLauncher
 
 /// Front projection of the Kunpeng 40, with the two rear triggers raised into view.
 struct KunpengTestDiagram: View {
@@ -25,10 +26,10 @@ struct KunpengTestDiagram: View {
     private struct Paint {
         let context: GraphicsContext
         let state: TestPadState
-        let ink = Color(white: 0.13)
-        let active = Color(red: 0.39, green: 0.96, blue: 0.76)
-        let top = Color(red: 0.92, green: 0.93, blue: 0.94)
-        let bottom = Color(red: 0.58, green: 0.61, blue: 0.66)
+        let ink = DS.Color.controllerInk
+        let active = DS.Color.controllerActive
+        let top = DS.Color.controllerShellTop
+        let bottom = DS.Color.controllerShellBottom
 
         // Deepen the housing below the shoulder line. Controls keep their own circular dimensions.
         let housing = CGAffineTransform(a: 1, b: 0, c: 0, d: 1.14, tx: 0, ty: 72 * (1 - 1.14))
@@ -43,7 +44,7 @@ struct KunpengTestDiagram: View {
             var shadow = context
             shadow.addFilter(.shadow(color: .black.opacity(0.36), radius: 5, y: 4))
             shadow.fill(shell, with: .color(ink))
-            context.fill(shell, with: .linearGradient(.init(colors: [top, .init(white: 0.84), bottom]),
+            context.fill(shell, with: .linearGradient(.init(colors: [top, DS.Color.controllerShellMiddle, bottom]),
                                                         startPoint: .init(x: 180, y: 68), endPoint: .init(x: 255, y: 309)))
             context.stroke(shell, with: .color(.white.opacity(0.7)), lineWidth: 1.4)
             var panel = Path()
@@ -123,7 +124,7 @@ struct KunpengTestDiagram: View {
 
         func cap(_ path: Path, on: Bool) {
             let bounds = path.boundingRect
-            let colors = on ? [active, active.opacity(0.92)] : [Color(white: 0.28), ink]
+            let colors = on ? [active, active.opacity(0.92)] : [DS.Color.controllerCap, ink]
             context.fill(path, with: .linearGradient(.init(colors: colors),
                 startPoint: .init(x: bounds.midX, y: bounds.minY), endPoint: .init(x: bounds.midX, y: bounds.maxY)))
             context.stroke(path, with: .color(on ? active : .black.opacity(0.75)), lineWidth: on ? 2.5 : 1.3)
@@ -162,13 +163,13 @@ struct KunpengTestDiagram: View {
             let well = pill(x: center.x, y: center.y, width: 70, height: 70)
             context.fill(well, with: .color(ink))
             context.stroke(well, with: .color(.white.opacity(0.9)), lineWidth: 2)
-            context.stroke(well, with: .color(Color(white: 0.48)),
+            context.stroke(well, with: .color(DS.Color.controllerWellRing),
                            style: .init(lineWidth: 3, dash: [1, 2.6]))
             let px = center.x + CGFloat(x) * 12, py = center.y - CGFloat(y) * 12
             let tip = pill(x: px, y: py, width: 45, height: 45)
             let pressed = value(id) > 0.01
             cap(tip, on: pressed)
-            context.stroke(tip, with: .color(pressed || max(abs(x), abs(y)) > 0.05 ? active : Color(white: 0.63)), lineWidth: 1.8)
+            context.stroke(tip, with: .color(pressed || max(abs(x), abs(y)) > 0.05 ? active : DS.Color.controllerStickEdge), lineWidth: 1.8)
             context.stroke(pill(x: px, y: py, width: 37, height: 37),
                            with: .color(.white.opacity(0.14)), lineWidth: 0.9)
             text(id, x: px, y: py, size: 11, color: pressed ? ink : .white)

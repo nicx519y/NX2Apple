@@ -36,6 +36,14 @@ package enum DS {
         package static let statusInfo = SwiftUI.Color(nsColor: nsStatusInfo)
         /// Done, a passed check, a notice's success symbol
         package static let statusSuccess = SwiftUI.Color(nsColor: nsStatusSuccess)
+        package static let controllerInk = SwiftUI.Color(nsColor: nsControllerInk)
+        package static let controllerActive = SwiftUI.Color(nsColor: nsControllerActive)
+        package static let controllerShellTop = SwiftUI.Color(nsColor: nsControllerShellTop)
+        package static let controllerShellMiddle = SwiftUI.Color(nsColor: nsControllerShellMiddle)
+        package static let controllerShellBottom = SwiftUI.Color(nsColor: nsControllerShellBottom)
+        package static let controllerCap = SwiftUI.Color(nsColor: nsControllerCap)
+        package static let controllerWellRing = SwiftUI.Color(nsColor: nsControllerWellRing)
+        package static let controllerStickEdge = SwiftUI.Color(nsColor: nsControllerStickEdge)
         /// Every symbol that is not a status or a selection: row, button and header icons. The same as text.secondary
         package static let symbolDefault = SwiftUI.Color(nsColor: nsSymbolDefault)
         /// A symbol of something selected or active, nothing else
@@ -56,6 +64,14 @@ package enum DS {
         package static let nsStatusErrorOn = rgb(0xFFFFFF, alpha: 1.0)
         package static let nsStatusInfo = rgb(0xFFF0D6, alpha: 1.0)
         package static let nsStatusSuccess = rgb(0x40D678, alpha: 1.0)
+        package static let nsControllerInk = rgb(0x212121, alpha: 1.0)
+        package static let nsControllerActive = rgb(0x63F5C2, alpha: 1.0)
+        package static let nsControllerShellTop = rgb(0xEBEDF0, alpha: 1.0)
+        package static let nsControllerShellMiddle = rgb(0xD6D6D6, alpha: 1.0)
+        package static let nsControllerShellBottom = rgb(0x949CA8, alpha: 1.0)
+        package static let nsControllerCap = rgb(0x474747, alpha: 1.0)
+        package static let nsControllerWellRing = rgb(0x7A7A7A, alpha: 1.0)
+        package static let nsControllerStickEdge = rgb(0xA1A1A1, alpha: 1.0)
         package static let nsSymbolDefault = rgb(0xFFFFFF, alpha: 0.6)
         package static let nsSymbolAccent = rgb(0xFFF0D6, alpha: 1.0)
         private static func rgb(_ hex: UInt32, alpha: CGFloat) -> NSColor {
